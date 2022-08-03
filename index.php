@@ -1,5 +1,19 @@
 <?php
 require_once('functions.php');
+
+if (isset($_GET['k']) && !empty($_GET['k'])) {
+  $keyword = $_GET['k'];
+  $query = "SELECT * FROM siswa WHERE
+              nama LIKE '%$keyword%' OR
+              alamat LIKE '%$keyword%' OR
+              jenis_kelamin LIKE '%$keyword%' OR
+              agama LIKE  '%$keyword%' OR 
+              sekolah_asal LIKE '%$keyword%'
+    ";
+  $semua_siswa = ambilSiswa($query);
+} else {
+  $semua_siswa = ambilSiswa('SELECT * FROM siswa');
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +50,17 @@ require_once('functions.php');
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-10 col-sm-9 col-md-8 col-lg-7 col-xl-6 col-xxl-5">
+        <form action="" method="GET">
+          <div class="input-group mb-3">
+            <input name="k" value="<?= $_GET['k'] ?? '' ?>" type="text" class="form-control" placeholder="Cari...">
+            <button class="btn btn-outline-primary" type="submit">Cari</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- table -->
     <div class="table-responsive">
       <table class="table table-hover table-bordered text-nowrap">
@@ -51,7 +76,7 @@ require_once('functions.php');
           </tr>
         </thead>
         <tbody>
-          <?php foreach (ambilSiswa('SELECT * FROM siswa') as $i => $siswa) : ?>
+          <?php foreach ($semua_siswa as $i => $siswa) : ?>
             <tr>
               <th scope="row"><?= $i + 1; ?></th>
               <td class="text-nowrap data-nama"><?= $siswa['nama']; ?></td>
