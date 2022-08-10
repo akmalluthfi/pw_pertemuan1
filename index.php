@@ -1,6 +1,10 @@
 <?php
 require_once('functions.php');
 
+// cek apakah user sudah login
+// if(isset())
+
+// cek apakah ada keyword pencarian
 if (isset($_GET['k']) && !empty($_GET['k'])) {
   $keyword = $_GET['k'];
   $query = "SELECT * FROM siswa WHERE
@@ -44,7 +48,7 @@ if (isset($_GET['k']) && !empty($_GET['k'])) {
 
     <div class="row justify-content-end">
       <div class="col-auto">
-        <button type="button" class="btn btn-outline-success mb-3" data-bs-toggle="modal" data-bs-target="#addData">
+        <button type="button" class="btn btn-outline-success mb-3 me-3" data-bs-toggle="modal" data-bs-target="#addData">
           Tambah Siswa
         </button>
       </div>
@@ -76,24 +80,32 @@ if (isset($_GET['k']) && !empty($_GET['k'])) {
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($semua_siswa as $i => $siswa) : ?>
+          <?php if (empty($semua_siswa)) : ?>
             <tr>
-              <th scope="row"><?= $i + 1; ?></th>
-              <td class="text-nowrap data-nama"><?= $siswa['nama']; ?></td>
-              <td class="text-nowrap data-alamat"><?= $siswa['alamat']; ?></td>
-              <td class="text-nowrap data-jenis-kelamin"><?= $siswa['jenis_kelamin']; ?></td>
-              <td class="text-nowrap data-agama"><?= $siswa['agama']; ?></td>
-              <td class="text-nowrap data-sekolah-asal"><?= $siswa['sekolah_asal']; ?></td>
-              <td class="text-nowrap">
-                <button type="button" class="btn btn-sm btn-primary btn-editData" data-bs-toggle="modal" data-bs-target="#editData" data-id="<?= $siswa['id'] ?>">
-                  Ubah
-                </button>
-                <button type="button" class="btn btn-sm btn-danger btn-confirmDelete" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-id="<?= $siswa['id'] ?>">
-                  Hapus
-                </button>
+              <td colspan="7">
+                <h4 class="text-center">Data tidak ditemukan!</h4>
               </td>
             </tr>
-          <?php endforeach;  ?>
+          <?php else : ?>
+            <?php foreach ($semua_siswa as $i => $siswa) : ?>
+              <tr>
+                <th scope="row"><?= $i + 1; ?></th>
+                <td class="text-nowrap data-nama"><?= $siswa['nama']; ?></td>
+                <td class="text-nowrap data-alamat"><?= $siswa['alamat']; ?></td>
+                <td class="text-nowrap data-jenis-kelamin"><?= $siswa['jenis_kelamin']; ?></td>
+                <td class="text-nowrap data-agama"><?= $siswa['agama']; ?></td>
+                <td class="text-nowrap data-sekolah-asal"><?= $siswa['sekolah_asal']; ?></td>
+                <td class="text-nowrap">
+                  <button type="button" class="btn btn-sm btn-primary btn-editData" data-bs-toggle="modal" data-bs-target="#editData" data-id="<?= $siswa['id'] ?>">
+                    Ubah
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger btn-confirmDelete" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-id="<?= $siswa['id'] ?>">
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            <?php endforeach;  ?>
+          <?php endif;  ?>
         </tbody>
       </table>
     </div>
@@ -154,7 +166,14 @@ if (isset($_GET['k']) && !empty($_GET['k'])) {
             </div>
             <div class="mb-3">
               <label for="edit-agama" class="form-label">Agama</label>
-              <input name="agama" type="text" class="form-control" id="edit-agama" required>
+              <select class="form-select" name="agama" id="edit-agama">
+                <option value="Islam">Islam</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+                <option value="Konghucu">Konghucu</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="edit-sekolah-asal" class="form-label">Sekolah Asal</label>
@@ -205,7 +224,15 @@ if (isset($_GET['k']) && !empty($_GET['k'])) {
             </div>
             <div class="mb-3">
               <label for="add-agama" class="form-label">Agama</label>
-              <input name="agama" type="text" class="form-control" id="add-agama" required>
+              <select class="form-select" name="agama">
+                <option selected disabled hidden>-- Pilih salah satu --</option>
+                <option value="Islam">Islam</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+                <option value="Konghucu">Konghucu</option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="add-sekolah-asal" class="form-label">Sekolah Asal</label>

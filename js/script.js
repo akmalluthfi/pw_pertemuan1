@@ -43,8 +43,13 @@ btnEditData.forEach((btnEdit) => {
         .setAttribute('checked', true);
     }
 
-    console.log(jenis_kelamin);
-    formEditData.querySelector('input#edit-agama').setAttribute('value', agama);
+    const elAgama = formEditData.querySelectorAll('select#edit-agama > option');
+    elAgama.forEach((element) => {
+      if (element.value === agama) {
+        element.setAttribute('selected', '');
+      }
+    });
+
     formEditData
       .querySelector('input#edit-sekolah-asal')
       .setAttribute('value', sekolah_asal);

@@ -12,4 +12,6 @@ if (isset($_POST['add'])) {
     setcookie('msg', 'Siswa Gagal Ditambahkan', time() + 2);
     header('Location:./');
   }
+} else {
+  header('Location:./');
 }
